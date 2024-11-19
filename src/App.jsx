@@ -1,15 +1,14 @@
-import './App.css'
 import Header from './components/Header'
 import Page from './components/Page'
-import Navbar from './components/Navbar'
+import Sidebar from './components/Sidebar'
 
 function App() {
 
 
   return (
-    <div>
+    <div className="w-screen">
       <Header />
-      <Navbar />
+      <Sidebar />
       <Page />
     </div>
   )
