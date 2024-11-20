@@ -175,10 +175,10 @@ const Sidebar = () => {
     <>
       {/* Desktop Sidebar (Always Visible) */}
       <div
-        className="hidden md:block fixed left-0 bg-gray-200 shadow-md"
+        className="hidden md:block fixed left-0 bg-gray-200 shadow-md overflow-auto"
         style={{ width: "35%", top: "4rem", height: "calc(100% - 4rem)" }} // Starts below header, 35% width
       >
-        <nav className="p-4">{renderMenu(menuItems)}</nav>
+        <nav className="p-4 overflow-x:scroll">{renderMenu(menuItems)}</nav>
       </div>
 
       {/* Mobile Sidebar */}
@@ -204,7 +204,7 @@ const Sidebar = () => {
           onClick={() => setIsSidebarOpen(true)}
           className="md:hidden fixed top-1/2 left-0 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-r"
         >
-          >
+
         </button>
       )}
     </>
