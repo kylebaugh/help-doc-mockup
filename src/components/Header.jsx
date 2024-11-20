@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import SearchBar from './SearchBar';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="bg-gray-800 text-white w-full">
+    <header className="bg-gray-600 text-white w-full">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Title */}
@@ -12,35 +13,8 @@ const Header = () => {
             My Project
           </div>
 
-          {/* Links for Desktop */}
-          <nav className="hidden md:flex space-x-4">
-            <a href="#home" className="hover:text-gray-400">Home</a>
-            <a href="#about" className="hover:text-gray-400">About</a>
-            <a href="#contact" className="hover:text-gray-400">Contact</a>
-          </nav>
-
-          {/* Hamburger Menu for Mobile */}
-          <div className="md:hidden">
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="focus:outline-none"
-            >
-              <span className="sr-only">Open menu</span>
-              <svg
-                className="h-6 w-6"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
-                />
-              </svg>
-            </button>
+          <div>
+            <SearchBar />
           </div>
         </div>
       </div>

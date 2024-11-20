@@ -3,27 +3,74 @@ import React, { useState } from "react";
 const menuItems = [
   {
     label: "Welcome",
-    children: [],
+    children: [
+      { label: "Using the Search Screen", children: [] },
+      { label: "Password security", children: [] },
+      { label: "Work Station Set Up", children: [] },
+    ],
   },
   {
     label: "Administration",
     children: [
-      { label: "Users", children: [] },
-      { label: "Permissions", children: [] },
+      {
+        label: "System", children: [
+          {
+            label: "Site Configuration", children: [
+              { label: "Site Configuration Screen Reference", children: [] },
+              { label: "Setting Site Configurations", children: [] },
+            ]
+          },
+          {
+            label: "Edits", children: [
+              { label: "Edits Screen Reference", children: [] },
+              { label: "Modifying Lists of Values", children: [] },
+            ]
+          },
+        ]
+      },
+      {
+        label: "General", children: [
+          {
+            label: "Facility", children: [
+              { label: "Facility Screen Reference", children: [] },
+              { label: "Creating Your Facility", children: [] },
+            ]
+          },
+          {
+            label: "Action/Meeting", children: [
+              { label: "Action/Meeting Screen Reference", children: [] },
+              { label: "Creating Actions", children: [] },
+            ]
+          },
+        ]
+      },
+      { label: "Material", children: [] },
+      { label: "Waste", children: [] },
+      { label: "Queries", children: [] },
     ],
   },
   {
     label: "Material",
     children: [
       {
-        label: "Supplies",
+        label: "Catalog",
         children: [
-          { label: "Stationery", children: [] },
-          { label: "Hardware", children: [] },
+          {
+            label: "Company", children: [
+              { label: "Company Screen Reference", children: [] },
+              { label: "Creating a company record", children: [] },
+            ]
+          },
+          {
+            label: "Product Groups", children: [
+              { label: "Product Groups Screen Reference", children: [] },
+              { label: "Creating Product Groups", children: [] },
+            ]
+          },
         ],
       },
       {
-        label: "Inventory",
+        label: "Requests",
         children: [],
       },
     ],
@@ -31,11 +78,22 @@ const menuItems = [
   {
     label: "HMMS Waste",
     children: [
+      { label: "Flow of Waste through HMMS", children: [] },
       {
-        label: "Chemical Waste",
+        label: "Characterization",
         children: [
-          { label: "Category A", children: [] },
-          { label: "Category B", children: [] },
+          {
+            label: "Waste Steams", children: [
+              { label: "Waste Steam Screen Reference", children: [] },
+              { label: "Creating Waste Steam", children: [] },
+            ]
+          },
+          {
+            label: "Waste Profiles", children: [
+              { label: "Waste Profiles Screen Reference", children: [] },
+              { label: "Creating Waste Profiles", children: [] },
+            ]
+          },
         ],
       },
     ],
@@ -43,15 +101,26 @@ const menuItems = [
   {
     label: "HMMS Reporting and Analytics",
     children: [
-      { label: "Reports", children: [] },
-      { label: "Analytics", children: [] },
+      {
+        label: "Reports and Analytics", children: [
+          { label: "Reports and Analytics Screen Reference", children: [] },
+          { label: "Creating Reports and Analytics", children: [] },
+        ]
+      },
+      {
+        label: "Air", children: [
+          { label: "HAPS Report", children: [] },
+          { label: "VOC Report", children: [] },
+          { label: "Emissions", children: [] },
+        ]
+      },
     ],
   },
 ];
 
 const Sidebar = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [expandedItems, setExpandedItems] = useState({});
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleExpand = (label) => {
     setExpandedItems((prev) => ({
@@ -61,60 +130,83 @@ const Sidebar = () => {
   };
 
   const renderMenu = (items, level = 0) => (
-    <ul className={`space-y-1 pl-${level * 4}`}>
-      {items.map((item) => (
-        <li key={item.label}>
-          <button
-            onClick={() => toggleExpand(item.label)}
-            className="flex items-center justify-between w-full text-left hover:bg-gray-100 p-2 rounded"
+    <ul>
+      {items.map((item) => {
+        const hasChildren = item.children && item.children.length > 0;
+        const isExpanded = expandedItems[item.label];
+
+        // Determine the icon
+        const icon = hasChildren
+          ? isExpanded
+            ? "📖" // Open book for expanded items
+            : "📘" // Closed book for collapsed items
+          : "📄"; // Paper document for items with no children
+
+        return (
+          <li
+            key={item.label}
+            className="py-1"
+            style={{
+              paddingLeft: `${level * 16}px`, // Indent based on level
+            }}
           >
-            <span>{item.label}</span>
-            {item.children.length > 0 && (
-              <span className="ml-2">
-                {expandedItems[item.label] ? "-" : "+"}
+            <button
+              onClick={() => hasChildren && toggleExpand(item.label)}
+              className="flex items-center justify-between w-full text-left hover:bg-gray-100 p-2 rounded"
+            >
+              <span className="flex items-center">
+                <span className="mr-2">{icon}</span> {/* Add icon */}
+                {item.label}
               </span>
+              {hasChildren && (
+                <span className="ml-2">{isExpanded ? "-" : "+"}</span>
+              )}
+            </button>
+            {isExpanded && hasChildren && (
+              <div>{renderMenu(item.children, level + 1)}</div>
             )}
-          </button>
-          {expandedItems[item.label] && item.children.length > 0 && (
-            <div>{renderMenu(item.children, level + 1)}</div>
-          )}
-        </li>
-      ))}
+          </li>
+        );
+      })}
     </ul>
   );
 
   return (
     <>
-      {/* Desktop Sidebar */}
-      <div className="hidden md:block fixed top-16 left-0 w-64 h-full bg-gray-200 shadow">
+      {/* Desktop Sidebar (Always Visible) */}
+      <div
+        className="hidden md:block fixed left-0 bg-gray-200 shadow-md"
+        style={{ width: "35%", top: "4rem", height: "calc(100% - 4rem)" }} // Starts below header, 35% width
+      >
         <nav className="p-4">{renderMenu(menuItems)}</nav>
       </div>
 
-      {/* Mobile Menu */}
-      <div className="md:hidden">
-        {/* Hamburger Menu */}
-        <button
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="fixed top-20 left-4 p-2 bg-gray-800 text-white rounded"
-        >
-          ☰
-        </button>
+      {/* Mobile Sidebar */}
+      <div
+        className={`md:hidden fixed top-0 left-0 h-full bg-gray-200 shadow-md transform transition-transform duration-300 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+        style={{ width: "75%" }}
+      >
+        <nav className="p-4">{renderMenu(menuItems)}</nav>
 
-        {/* Mobile Sidebar Modal */}
-        {isMobileMenuOpen && (
-          <div className="fixed inset-0 bg-gray-800 bg-opacity-75 z-50">
-            <div className="bg-white w-3/4 h-full shadow-md">
-              <button
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="p-4 text-left w-full"
-              >
-                Close
-              </button>
-              <nav className="p-4">{renderMenu(menuItems)}</nav>
-            </div>
-          </div>
-        )}
+        {/* Folder Tab (Collapsible Button) */}
+        <button
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          className="absolute top-1/2 right-[-25px] transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-r"
+        >
+          {isSidebarOpen ? "<" : ">"}
+        </button>
       </div>
+
+      {/* Folder Tab (Visible when sidebar is collapsed on mobile) */}
+      {!isSidebarOpen && (
+        <button
+          onClick={() => setIsSidebarOpen(true)}
+          className="md:hidden fixed top-1/2 left-0 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-r"
+        >
+          >
+        </button>
+      )}
     </>
   );
 };
