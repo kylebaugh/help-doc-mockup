@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { MdArrowDropDown } from "react-icons/md";
+import { IoMdArrowDropup } from "react-icons/io";
 
 const menuItems = [
   {
@@ -130,6 +132,7 @@ const Sidebar = () => {
   };
 
   const renderMenu = (items, level = 0) => (
+
     <ul>
       {items.map((item) => {
         const hasChildren = item.children && item.children.length > 0;
@@ -157,6 +160,7 @@ const Sidebar = () => {
               <span className="flex items-center">
                 <span className="mr-2">{icon}</span> {/* Add icon */}
                 {item.label}
+
               </span>
               {hasChildren && (
                 <span className="ml-2">{isExpanded ? "-" : "+"}</span>
@@ -165,9 +169,11 @@ const Sidebar = () => {
             {isExpanded && hasChildren && (
               <div>{renderMenu(item.children, level + 1)}</div>
             )}
+
           </li>
         );
       })}
+
     </ul>
   );
 
