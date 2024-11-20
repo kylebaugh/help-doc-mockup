@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { MdArrowDropDown } from "react-icons/md";
+import { IoMdArrowDropup } from "react-icons/io";
 
 const menuItems = [
   {
@@ -66,17 +68,21 @@ const Sidebar = () => {
         <li key={item.label}>
           <button
             onClick={() => toggleExpand(item.label)}
-            className="flex items-center justify-between w-full text-left hover:bg-gray-100 p-2 rounded"
+            className="flex items-center justify-between w-full text-left hover:bg-gray-100 hover:text-blue-500 p-2 rounded"
           >
             <span>{item.label}</span>
             {item.children.length > 0 && (
               <span className="ml-2">
-                {expandedItems[item.label] ? "-" : "+"}
+                {expandedItems[item.label] ? (
+                  <IoMdArrowDropup />
+                ) : (
+                  <MdArrowDropDown />
+                )}
               </span>
             )}
           </button>
           {expandedItems[item.label] && item.children.length > 0 && (
-            <div>{renderMenu(item.children, level + 1)}</div>
+            <div className="pl-2">{renderMenu(item.children, level + 1)}</div>
           )}
         </li>
       ))}
