@@ -14,11 +14,17 @@ function App() {
 
   console.log('pagenum', pageNum);
 
+  const resetPageNum = () => {
+    setPageNum(0);
+  }
+
   return (
     <div className="w-screen h-screen flex flex-col">
       {/* Header */}
       <Header
-        setPageNum={() => setPageNum(0)}
+        pageNum={pageNum}
+        setPageNum={setPageNum}
+        resetPageNum={resetPageNum}
       />
 
       {/* Content Area */}
