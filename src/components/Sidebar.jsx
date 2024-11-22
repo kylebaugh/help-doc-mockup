@@ -163,7 +163,7 @@ const Sidebar = () => {
 
               </span>
               {hasChildren && (
-                <span className="ml-2">{isExpanded ? "-" : "+"}</span>
+                <span className="ml-2">{isExpanded ? <IoMdArrowDropup /> : <MdArrowDropDown /> }</span>
               )}
             </button>
             {isExpanded && hasChildren && (
