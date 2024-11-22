@@ -2,11 +2,23 @@ import React, { useState, useRef, useEffect } from "react";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import Page from "./components/Page";
+import TempPage1 from './components/TempPage1';
+import TempPage2 from './components/TempPage2';
+import TempPage3 from './components/TempPage3';
+import HelpLanding from './components/HelpLanding';
 
 function App() {
   const [sidebarWidth, setSidebarWidth] = useState(300); // Default width in pixels
   const isResizing = useRef(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768); // Detect mobile view
+  
+  const [pageNum, setPageNum] = useState(0);
+
+  console.log('pagenum', pageNum);
+
+  const resetPageNum = () => {
+    setPageNum(0);
+  }
 
   const handleMouseDown = (e) => {
     e.preventDefault();
@@ -50,13 +62,21 @@ function App() {
   return (
     <div className="w-screen h-screen flex flex-col">
       {/* Header */}
-      <Header />
+      <Header
+        pageNum={pageNum}
+        setPageNum={setPageNum}
+        resetPageNum={resetPageNum}
+      />
 
       {/* Main Content */}
       <div className="flex flex-grow relative">
         {/* Sidebar */}
         <div className={`${isMobile ? "" : "block"}`}>
-          <Sidebar width={isMobile ? "0" : sidebarWidth} />
+          <Sidebar 
+            width={isMobile ? "0" : sidebarWidth} 
+            pageNum={pageNum}
+            setPageNum={setPageNum}
+            />
         </div>
 
         {/* Resizable Vertical Line for Desktop Only */}
@@ -77,7 +97,14 @@ function App() {
             marginLeft: isMobile ? "0px" : `${sidebarWidth}px`,
           }}
         >
-          <Page />
+          {/* <Page /> */}
+
+          {pageNum === 0 && <HelpLanding />}
+
+          {pageNum === 1 && <TempPage1 />}
+          {pageNum === 2 && <TempPage2 />}
+          {pageNum === 3 && <TempPage3 />}
+
         </div>
       </div>
     </div>

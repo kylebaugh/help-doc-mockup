@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import SearchBar from './SearchBar';
 
-const Header = () => {
+const Header = ({pageNum, setPageNum, resetPageNum}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -9,12 +9,15 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Title */}
-          <div className="text-xl font-bold">
+          <div className="text-xl font-bold cursor-pointer" onClick={resetPageNum}>
             My Project
           </div>
 
           <div>
-            <SearchBar />
+            <SearchBar
+              pageNum={pageNum}
+              setPageNum={setPageNum}
+            />
           </div>
         </div>
       </div>

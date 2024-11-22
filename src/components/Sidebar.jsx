@@ -3,7 +3,8 @@ import { MdArrowDropDown } from "react-icons/md";
 import { IoMdArrowDropup } from "react-icons/io";
 import menuItems from "../assets/menuItems";
 
-const Sidebar = ({ width }) => {
+const Sidebar = ({ width, pageNum, setPageNum }) => {
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [expandedItems, setExpandedItems] = useState({});
 
@@ -12,6 +13,15 @@ const Sidebar = ({ width }) => {
       ...prev,
       [label]: !prev[label],
     }));
+  };
+
+// TEMP FUNCTION FOR POF PAGE NAVIGATION -- REMOVE ON PRODUCTION, INCLUDING THE FIRST LI OF THE ITEMS.MAP BELOW
+  const handlePageChange = () => {
+    if (pageNum < 3) {
+      setPageNum(pageNum + 1);
+    } else {
+      setPageNum(1);
+    }
   };
 
   const renderMenu = (items, level = 0) => (
@@ -35,6 +45,9 @@ const Sidebar = ({ width }) => {
             style={{
               paddingLeft: `${level * 16}px`, // Indent based on level
             }}
+
+            // REMOVE ONCLICK FOR PRODUCTION
+            onClick={handlePageChange}
           >
             <button
               onClick={() => hasChildren && toggleExpand(item.label)}
