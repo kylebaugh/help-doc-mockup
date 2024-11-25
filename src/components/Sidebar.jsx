@@ -46,7 +46,7 @@ const Sidebar = ({ width, pageNum, setPageNum }) => {
             }}
           >
             <button
-              onClick={() => hasChildren && toggleExpand(item.label)}
+              onClick={() => hasChildren ? toggleExpand(item.label) : handlePageChange()}
               className="flex items-center justify-between w-full text-left hover:bg-gray-100 p-2 rounded"
             >
               <span className="flex items-center">
