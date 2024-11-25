@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { MdArrowDropDown } from "react-icons/md";
 import { IoMdArrowDropup } from "react-icons/io";
 
-const MenuItem = ({ item, level, isExpanded, toggleExpand, renderMenu }) => {
+const MenuItem = ({ item, level, isExpanded, toggleExpand, renderMenu, handlePageChange }) => {
     const contentRef = useRef(null);
 
     useEffect(() => {
@@ -34,7 +34,7 @@ const MenuItem = ({ item, level, isExpanded, toggleExpand, renderMenu }) => {
             }}
         >
             <button
-                onClick={() => hasChildren && toggleExpand(item.label)}
+                onClick={() => hasChildren ? toggleExpand(item.label) : handlePageChange()}
                 className="flex items-center justify-between w-full text-left hover:bg-gray-100 p-2 rounded"
             >
                 <span className="flex items-center">

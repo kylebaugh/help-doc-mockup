@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { MdArrowDropDown } from "react-icons/md";
 import { IoMdArrowDropup } from "react-icons/io";
 import menuItems from "../assets/menuItems";
+import MenuItem from "./MenuItem";
 
 const Sidebar = ({ width, pageNum, setPageNum }) => {
 
@@ -27,45 +28,18 @@ const Sidebar = ({ width, pageNum, setPageNum }) => {
   const renderMenu = (items, level = 0) => (
     <ul>
       {items.map((item) => {
-        const hasChildren = item.children && item.children.length > 0;
         const isExpanded = expandedItems[item.label];
 
-        // Determine the icon
-        const icon = hasChildren
-          ? isExpanded
-            ? "📖" // Open book for expanded items
-            : "📘" // Closed book for collapsed items
-          : "📄"; // Paper document for items with no children
-
         return (
-          <li
+          <MenuItem
             key={item.label}
-            className="py-1"
-            style={{
-              paddingLeft: `${level * 16}px`, // Indent based on level
-            }}
-          >
-            <button
-              onClick={() => hasChildren ? toggleExpand(item.label) : handlePageChange()}
-              className="flex items-center justify-between w-full text-left hover:bg-gray-100 p-2 rounded"
-            >
-              <span className="flex items-center">
-                <span className="mr-2">{icon}</span> {/* Add icon */}
-                {item.label}
-              </span>
-              {hasChildren && (
-                <span className="ml-2">
-                  {isExpanded ? <IoMdArrowDropup /> : <MdArrowDropDown />}
-                </span>
-              )}
-            </button>
-            <div
-              className={`transition-height ${isExpanded ? "expanded" : ""}`}
-            >
-              {isExpanded && hasChildren && renderMenu(item.children, level + 1)}
-            </div>
-
-          </li>
+            item={item}
+            level={level}
+            isExpanded={isExpanded}
+            toggleExpand={toggleExpand}
+            renderMenu={renderMenu}
+            handlePageChange={handlePageChange}
+          />
         );
       })}
     </ul>
