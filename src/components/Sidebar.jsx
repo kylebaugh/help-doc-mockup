@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { MdArrowDropDown } from "react-icons/md";
 import { IoMdArrowDropup } from "react-icons/io";
 import menuItems from "../assets/menuItems";
+import DropDown from "./DropDown";
 
 const Sidebar = ({ width, pageNum, setPageNum }) => {
 
@@ -80,6 +81,8 @@ const Sidebar = ({ width, pageNum, setPageNum }) => {
         className="hidden md:block fixed left-0 bg-gray-200 shadow-md overflow-auto"
         style={{ width: `${width}px`, top: "4rem", height: "calc(100% - 4rem)" }} // Starts below header, 35% width
       >
+
+        <DropDown/>
         <nav className="p-4 overflow-x:scroll">{renderMenu(menuItems)}</nav>
       </div>
 

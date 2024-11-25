@@ -1,3 +1,17 @@
-@tailwind base;
+ @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@keyframes slideIn {
+
+}
+
+#list{
+    max-height: 0; /* Collapsed state */
+    overflow: hidden;
+    transition: max-height .5s ease-in; /* Smooth transition */
+}
+
+#list.active{
+    max-height: 500px; /* Set to a large enough value to accommodate content */
+}
