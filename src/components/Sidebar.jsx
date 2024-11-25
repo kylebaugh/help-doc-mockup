@@ -15,7 +15,7 @@ const Sidebar = ({ width, pageNum, setPageNum }) => {
     }));
   };
 
-// TEMP FUNCTION FOR POF PAGE NAVIGATION -- REMOVE ON PRODUCTION, INCLUDING THE FIRST LI OF THE ITEMS.MAP BELOW
+  // TEMP FUNCTION FOR POF PAGE NAVIGATION -- REMOVE ON PRODUCTION, INCLUDING THE FIRST LI OF THE ITEMS.MAP BELOW
   const handlePageChange = () => {
     if (pageNum < 3) {
       setPageNum(pageNum + 1);
@@ -25,7 +25,6 @@ const Sidebar = ({ width, pageNum, setPageNum }) => {
   };
 
   const renderMenu = (items, level = 0) => (
-
     <ul>
       {items.map((item) => {
         const hasChildren = item.children && item.children.length > 0;
@@ -45,9 +44,6 @@ const Sidebar = ({ width, pageNum, setPageNum }) => {
             style={{
               paddingLeft: `${level * 16}px`, // Indent based on level
             }}
-
-            // REMOVE ONCLICK FOR PRODUCTION
-            onClick={handlePageChange}
           >
             <button
               onClick={() => hasChildren && toggleExpand(item.label)}
@@ -56,22 +52,25 @@ const Sidebar = ({ width, pageNum, setPageNum }) => {
               <span className="flex items-center">
                 <span className="mr-2">{icon}</span> {/* Add icon */}
                 {item.label}
-
               </span>
               {hasChildren && (
-                <span className="ml-2">{isExpanded ? <IoMdArrowDropup /> : <MdArrowDropDown />}</span>
+                <span className="ml-2">
+                  {isExpanded ? <IoMdArrowDropup /> : <MdArrowDropDown />}
+                </span>
               )}
             </button>
-            {isExpanded && hasChildren && (
-              <div>{renderMenu(item.children, level + 1)}</div>
-            )}
+            <div
+              className={`transition-height ${isExpanded ? "expanded" : ""}`}
+            >
+              {isExpanded && hasChildren && renderMenu(item.children, level + 1)}
+            </div>
 
           </li>
         );
       })}
-
     </ul>
   );
+
 
   return (
     <>
